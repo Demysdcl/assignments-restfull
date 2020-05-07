@@ -1,0 +1,4 @@
+com/wipro/jersey/student/app/ws/App.class
+com/wipro/jersey/student/app/ws/context/Student.class
+com/wipro/jersey/student/app/ws/context/StudentResource.class
+com/wipro/jersey/student/app/ws/context/StudentService.class

@@ -11,57 +11,58 @@ public class StudentService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<Student> students;
+    private static final List<Student> STUDENTS;
 
-    public StudentService() {
-        this.students = new ArrayList<>(Arrays.asList(
+    static {
+        STUDENTS = new ArrayList<>(Arrays.asList(
             new Student("S001", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S002", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S003", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S004", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S005", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S006", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S007", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S008", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S009", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S010", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S011", "Steve Martin", "C" + randClass(), randMarks()),
-            new Student("S012", "Steve Martin", "C" + randClass(), randMarks())
+            new Student("S002", "Demys Lima", "C" + randClass(), randMarks()),
+            new Student("S003", "Martin Loren", "C" + randClass(), randMarks()),
+            new Student("S004", "Rick Martinez", "C" + randClass(), randMarks()),
+            new Student("S005", "Bill Garcia", "C" + randClass(), randMarks()),
+            new Student("S006", "Ruan Montana", "C" + randClass(), randMarks()),
+            new Student("S007", "Tailon Twitter", "C" + randClass(), randMarks()),
+            new Student("S008", "Igor Gonzales", "C" + randClass(), randMarks()),
+            new Student("S009", "Diogo Silva", "C" + randClass(), randMarks()),
+            new Student("S010", "Silvio Monteiro", "C" + randClass(), randMarks()),
+            new Student("S011", "Marcos Rosa", "C" + randClass(), randMarks()),
+            new Student("S012", "Vinicius Reis", "C" + randClass(), randMarks())
         ));
     }
 
-    private float randMarks() {
-        return new Random().nextFloat() * (10 - 0) + 0;
+    private static float randMarks() {
+        float random = new Random().nextFloat() * (10 - 0) + 0;
+        return Float.parseFloat(String.format("%.01f", random));
     }
 
-    private int randClass() {
-        return new Random().nextInt() * (100 - 1) + 1;
+    private static int randClass() {
+        return new Random().nextInt(10 - 1 + 1) + 1;
     }
 
     public List<Student> getStudents() {
-        return this.students;
+        return STUDENTS;
     }
 
     public Student getStudentById(String id) {
-        return this.students.stream()
+        return STUDENTS.stream()
             .filter(it -> it.getStudentId().equalsIgnoreCase(id))
             .findFirst()
             .orElseThrow(() -> new RuntimeException("Any student found by ID: " + id));
     }
 
     public List<Student> getStudentsThatHasScoreGT(float mark) {
-        return this.students.stream()
+        return STUDENTS.stream()
             .filter(it -> it.getStudentTotalMarks() > mark)
             .collect(Collectors.toList());
     }
 
     public Student saveStudent(Student student) {
-        this.students.forEach(it -> {
+        STUDENTS.forEach(it -> {
             if (it.getStudentId().equalsIgnoreCase(student.getStudentId())) {
                 throw new RuntimeException("ID: " + it.getStudentId() + " already exists!");
             }
         });
-        this.students.add(student);
+        STUDENTS.add(student);
         return student;
     }
 
@@ -75,12 +76,12 @@ public class StudentService implements Serializable {
 
     public void deleteStudent(Student student) {
         Student studentToDelete = this.getStudentById(student.getStudentId());
-        this.students.remove(studentToDelete);
+        STUDENTS.remove(studentToDelete);
     }
 
     List<Student> getStudentsBelongClass(String studenClass) {
-        return this.students.stream()
-            .filter(it -> it.getStudentClass().equals(studenClass))
+        return STUDENTS.stream()
+            .filter(it -> it.getStudentClass().equalsIgnoreCase(studenClass))
             .collect(Collectors.toList());
     }
 

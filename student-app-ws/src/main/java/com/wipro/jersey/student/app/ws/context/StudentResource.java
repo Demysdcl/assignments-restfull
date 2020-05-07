@@ -16,7 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-@Path("students")
+@Path("/students")
 public class StudentResource implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,17 +51,25 @@ public class StudentResource implements Serializable {
     }
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Student saveStudent(@FormParam("student") Student student) {
-        return this.service.saveStudent(student);
+    public Student saveStudent(
+        @FormParam("studentId") String studentId,
+        @FormParam("studentName") String studentName,
+        @FormParam("studentClass") String studentClass,
+        @FormParam("studentTotalMark") float studentTotalMark) {
+        return this.service.saveStudent(new Student(studentId, studentName, studentClass, studentTotalMark));
     }
 
     @PUT
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Student updateStudent(@FormParam("student") Student student) {
-        return this.service.updateStudent(student);
+    public Student updateStudent(
+        @FormParam("studentId") String studentId,
+        @FormParam("studentName") String studentName,
+        @FormParam("studentClass") String studentClass,
+        @FormParam("studentTotalMark") float studentTotalMark) {
+        return this.service.updateStudent(new Student(studentId, studentName, studentClass, studentTotalMark));
     }
 
     @DELETE
@@ -72,12 +80,12 @@ public class StudentResource implements Serializable {
     }
 
     @GET
-    @Path("/studentClass/{studentClass}")
+    @Path("/class/{class}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Student> getStudentsBelongClass(
-        @DefaultValue("class") @PathParam("studentClass") String studenClass,
-        @DefaultValue("") @QueryParam("studentClass") String queryClass,
-        @DefaultValue("") @MatrixParam("studentClass") String matrixClass
+        @DefaultValue("C1") @PathParam("class") String studenClass,
+        @DefaultValue("") @QueryParam("class") String queryClass,
+        @DefaultValue("") @MatrixParam("class") String matrixClass
     ) {
         String selectedClass = !queryClass.isEmpty() ? queryClass
             : !matrixClass.isEmpty() ? matrixClass : studenClass;
