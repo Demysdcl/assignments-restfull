@@ -1,0 +1,6 @@
+com/wipro/employeews/context/EmployeeResource.class
+com/wipro/employeews/context/EmployeeDAO.class
+com/wipro/employeews/config/HibernateUtil.class
+com/wipro/employeews/App.class
+com/wipro/employeews/context/Employee.class
+com/wipro/employeews/context/EmployeeService.class
