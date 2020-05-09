@@ -47,11 +47,9 @@ public class EmployeeDAO {
     }
 
     void update(Employee employee) {
-
         session.beginTransaction();
-        session.update(employee);
+        session.saveOrUpdate(employee);
         session.getTransaction().commit();
-
     }
 
     Optional<Employee> findById(String empId) {

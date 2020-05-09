@@ -28,7 +28,7 @@ public class EmployeeService {
         return findAll;
     }
 
-    public void save(Employee employee) {
+    public Employee save(Employee employee) {
         employeeDAO.openConnecton();
         Optional<Employee> optional = employeeDAO.findById(employee.getEmpId());
         if (optional.isPresent()) {
@@ -37,18 +37,23 @@ public class EmployeeService {
         }
         employeeDAO.save(employee);
         employeeDAO.closeConnection();
+        return employee;
     }
 
-    void update(String empId, Employee employee) {
+    Employee update(String empId, Employee employee) {
         employeeDAO.openConnecton();
         Optional<Employee> findById = employeeDAO.findById(empId);
         if (!findById.isPresent()) {
             throw new RuntimeException(
                 String.format("Employee with ID: %s not found", employee.getEmpId()));
         }
+        employeeDAO.closeConnection();
+
+        employeeDAO.openConnecton();
         employee.setEmpId(empId);
         employeeDAO.update(employee);
         employeeDAO.closeConnection();
+        return employee;
     }
 
 }
